@@ -58,11 +58,12 @@ def load_model(model_path: Path):
     return model
 
 
-def save_model_info(save_json_path,run_id, artifact_path, model_name):
+def save_model_info(save_json_path,run_id, artifact_path, model_name, model_uri):
     info_dict = {
         "run_id": run_id,
         "artifact_path": artifact_path,
-        "model_name": model_name
+        "model_name": model_name,
+        "model_uri": model_uri
     }
     with open(save_json_path,"w") as f:
         json.dump(info_dict,f,indent=4)
@@ -153,7 +154,8 @@ if __name__ == "__main__":
                                     model_output=model.predict(X_train.sample(20,random_state=42)))
         
         # log the final model
-        mlflow.sklearn.log_model(model,"delivery_time_pred_model",signature=model_signature)
+        model_info = mlflow.sklearn.log_model(model, name="delivery_time_pred_model", signature=model_signature)
+        model_uri = model_info.model_uri
 
         # log stacking regressor
         mlflow.log_artifact(root_path / "models" / "stacking_regressor.joblib")
@@ -166,22 +168,18 @@ if __name__ == "__main__":
         
         # get the current run artifact uri
         artifact_uri = mlflow.get_artifact_uri()
-        
+
         logger.info("Mlflow logging complete and model logged")
-        
-    # get the run id 
+
+    # get the run id
     run_id = run.info.run_id
     model_name = "delivery_time_pred_model"
-    
+
     # save the model info
     save_json_path = root_path / "run_information.json"
     save_model_info(save_json_path=save_json_path,
                     run_id=run_id,
                     artifact_path=artifact_uri,
-                    model_name=model_name)
+                    model_name=model_name,
+                    model_uri=model_uri)
     logger.info("Model Information saved")
-    
-    
-    
-    
-    

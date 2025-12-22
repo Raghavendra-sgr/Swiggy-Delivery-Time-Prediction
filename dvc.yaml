@@ -44,11 +44,17 @@ stages:
     - models/stacking_regressor.joblib
 
   evaluation:
-    cmd: python src/models/evaluation.py
+    cmd: cmd /c "set PYTHONIOENCODING=utf-8 && python src/models/evaluation.py"
     deps:
     - src/models/evaluation.py
     - data/processed/train_trans.csv
     - data/processed/test_trans.csv
     - models/model.joblib
     outs:
+    - run_information.json
+
+  register_model:
+    cmd: python src/models/register_model.py
+    deps:
+    - src/models/register_model.py
     - run_information.json
