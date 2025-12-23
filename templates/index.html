@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiggy Delivery Time Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#FC8019"/>
+                    <path d="M2 17L12 22L22 17" stroke="#FC8019" stroke-width="2"/>
+                    <path d="M2 12L12 17L22 12" stroke="#FC8019" stroke-width="2"/>
+                </svg>
+                <h1>Swiggy Delivery Time Predictor</h1>
+            </div>
+            <p class="tagline">Get accurate delivery time estimates instantly</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Form Card -->
+            <div class="prediction-card">
+                <h2 class="card-title">Enter Delivery Details</h2>
+                
+                <form id="predictionForm">
+                    <!-- Delivery Person Details -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <svg class="section-icon" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="8" r="4" stroke="#FC8019" stroke-width="2"/>
+                                <path d="M6 21C6 17.134 8.686 14 12 14C15.314 14 18 17.134 18 21" stroke="#FC8019" stroke-width="2"/>
+                            </svg>
+                            Delivery Person Info
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="age">Age</label>
+                                <input type="number" id="age" name="age" min="18" max="65" step="0.1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ratings">Rating</label>
+                                <input type="number" id="ratings" name="ratings" min="1" max="5" step="0.1" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Details -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <svg class="section-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 17H4C2.89543 17 2 16.1046 2 15V10C2 8.89543 2.89543 8 4 8H20C21.1046 8 22 8.89543 22 10V15C22 16.1046 21.1046 17 20 17H19" stroke="#FC8019" stroke-width="2"/>
+                                <circle cx="7" cy="17" r="2" stroke="#FC8019" stroke-width="2"/>
+                                <circle cx="17" cy="17" r="2" stroke="#FC8019" stroke-width="2"/>
+                            </svg>
+                            Vehicle Info
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="type_of_vehicle">Vehicle Type</label>
+                                <select id="type_of_vehicle" name="type_of_vehicle" required>
+                                    <option value="">Select vehicle</option>
+                                    <option value="motorcycle">Motorcycle</option>
+                                    <option value="scooter">Scooter</option>
+                                    <option value="electric_scooter">Electric Scooter</option>
+                                    <option value="bicycle">Bicycle</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="vehicle_condition">Vehicle Condition (0-2)</label>
+                                <input type="number" id="vehicle_condition" name="vehicle_condition" min="0" max="2" step="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="multiple_deliveries">Multiple Deliveries</label>
+                                <input type="number" id="multiple_deliveries" name="multiple_deliveries" min="0" max="10" step="0.1" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Details -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <svg class="section-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.707 15.293C4.077 15.923 4.523 17 5.414 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z" stroke="#FC8019" stroke-width="2"/>
+                            </svg>
+                            Order Details
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="type_of_order">Order Type</label>
+                                <select id="type_of_order" name="type_of_order" required>
+                                    <option value="">Select order type</option>
+                                    <option value="Snack">Snack</option>
+                                    <option value="Meal">Meal</option>
+                                    <option value="Drinks">Drinks</option>
+                                    <option value="Buffet">Buffet</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="order_time_of_day">Order Time</label>
+                                <select id="order_time_of_day" name="order_time_of_day" required>
+                                    <option value="">Select time</option>
+                                    <option value="Morning">Morning</option>
+                                    <option value="Afternoon">Afternoon</option>
+                                    <option value="Evening">Evening</option>
+                                    <option value="Night">Night</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pickup_time_minutes">Pickup Time (minutes)</label>
+                                <input type="number" id="pickup_time_minutes" name="pickup_time_minutes" min="0" max="120" step="0.1" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location & Conditions -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <svg class="section-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" stroke="#FC8019" stroke-width="2"/>
+                                <circle cx="12" cy="9" r="2.5" stroke="#FC8019" stroke-width="2"/>
+                            </svg>
+                            Location & Conditions
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="distance">Distance (km)</label>
+                                <input type="number" id="distance" name="distance" min="0" max="50" step="0.1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="distance_type">Distance Type</label>
+                                <select id="distance_type" name="distance_type" required>
+                                    <option value="">Select type</option>
+                                    <option value="Short">Short</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Long">Long</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="city_type">City Type</label>
+                                <select id="city_type" name="city_type" required>
+                                    <option value="">Select city type</option>
+                                    <option value="Metropolitan">Metropolitan</option>
+                                    <option value="Urban">Urban</option>
+                                    <option value="Semi-Urban">Semi-Urban</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="weather">Weather</label>
+                                <select id="weather" name="weather" required>
+                                    <option value="">Select weather</option>
+                                    <option value="Sunny">Sunny</option>
+                                    <option value="Cloudy">Cloudy</option>
+                                    <option value="Rainy">Rainy</option>
+                                    <option value="Fog">Fog</option>
+                                    <option value="Stormy">Stormy</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="traffic">Traffic</label>
+                                <select id="traffic" name="traffic" required>
+                                    <option value="">Select traffic</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                    <option value="Jam">Jam</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="festival">Festival</label>
+                                <select id="festival" name="festival" required>
+                                    <option value="">Select option</option>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="is_weekend">Weekend</label>
+                                <select id="is_weekend" name="is_weekend" required>
+                                    <option value="">Select option</option>
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="button-container">
+                        <button type="submit" class="predict-btn" id="predictBtn">
+                            <span class="btn-text">Predict Delivery Time</span>
+                            <span class="btn-loader">
+                                <svg class="scooter-animation" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 17H4C2.89543 17 2 16.1046 2 15V10C2 8.89543 2.89543 8 4 8H20C21.1046 8 22 8.89543 22 10V15C22 16.1046 21.1046 17 20 17H19" stroke="white" stroke-width="2"/>
+                                    <circle cx="7" cy="17" r="2" stroke="white" stroke-width="2"/>
+                                    <circle cx="17" cy="17" r="2" stroke="white" stroke-width="2"/>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Result Card -->
+            <div class="result-card" id="resultCard">
+                <div class="result-content">
+                    <div class="result-icon">
+                        <svg class="checkmark" viewBox="0 0 52 52">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                        </svg>
+                    </div>
+                    <h3 class="result-title">Estimated Delivery Time</h3>
+                    <div class="result-time">
+                        <span class="time-value" id="predictionResult">--</span>
+                        <span class="time-unit">minutes</span>
+                    </div>
+                    <p class="result-subtitle">Your order will arrive soon! 🚀</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 Swiggy Delivery Time Predictor | Built with ❤️</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
